@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile - SharpPlay Web</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+  <!-- Loader -->
+  <div id="preloader">
+    <div class="loader-doors">
+      <div class="door door-left"></div>
+      <div class="door door-right"></div>
+    </div>
+    <div class="loader-content">
+      <div class="loader-container">
+        <div class="loader-ring"></div>
+        <div class="loader-ring"></div>
+        <div class="loader-ring"></div>
+        <div class="loader-logo">⚡</div>
+      </div>
+      <div class="loader-text">
+        <h2>SharpPlay</h2>
+        <p>Loading Amazing Experience...</p>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <h1>⚡ SharpPlay</h1>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="games.html">Games</a>
+        <a href="leaderboard.html">Leaderboard</a>
+        <a href="profile.html">Profile</a>
+        <div id="userProfile" class="user-profile">
+          <div class="nav-profile-avatar">
+            <img id="navProfilePhoto" src="" alt="Profile" style="display: none;">
+            <span id="navProfileIcon">👤</span>
+          </div>
+          <button onclick="signOut()" class="btn btn-secondary">Logout</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="profile-container">
+    <div class="profile-header">
+      <div class="profile-avatar-container">
+        <div class="profile-avatar" id="profileAvatar">
+          <img id="profilePhoto" src="" alt="Profile" style="display: none;">
+          <span id="profileIcon">👤</span>
+        </div>
+        <input type="file" id="photoUpload" accept="image/*" style="display: none;">
+        <button onclick="triggerPhotoUpload()" class="btn btn-primary photo-upload-btn">
+          📷 Update Photo
+        </button>
+      </div>
+      <h1 id="profileUsername">Loading...</h1>
+      <p id="profileEmail"></p>
+    </div>
+
+    <div class="profile-grid">
+      <!-- Stats Card -->
+      <div class="profile-card">
+        <h2>📊 Your Stats</h2>
+        <div class="stats-list">
+          <div class="stat-row">
+            <span class="stat-label">Best Score</span>
+            <span class="stat-value" id="profileBestScore">0</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Daily Streak</span>
+            <span class="stat-value" id="profileStreak">0 🔥</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Total Earned</span>
+            <span class="stat-value" id="profileTotalEarned">0 SHARP</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Current Balance</span>
+            <span class="stat-value highlight" id="profileBalance">0 SHARP</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wallet Card -->
+      <div class="profile-card">
+        <h2>💳 Web3 Wallet</h2>
+        <div class="wallet-form">
+          <!-- Web3 Wallet Connection -->
+          <div id="web3WalletSection">
+            <button id="connectWalletBtn" class="btn btn-primary" onclick="connectWallet()" style="width: 100%; margin-bottom: 1rem;">
+              🦊 Connect MetaMask
+            </button>
+            
+            <div id="walletInfo" style="display: none;">
+              <div class="wallet-connected-box">
+                <div class="wallet-status">
+                  <span class="status-indicator">🟢</span>
+                  <span>Wallet Connected</span>
+                </div>
+                <div class="wallet-address-display">
+                  <strong>Address:</strong> <span id="walletAddressDisplay"></span>
+                </div>
+                <div class="wallet-balances">
+                  <div class="balance-item">
+                    <span>MATIC:</span>
+                    <span id="maticBalance">0.00</span>
+                  </div>
+                  <div class="balance-item">
+                    <span>SHARP:</span>
+                    <span id="sharpBalance">0.00</span>
+                  </div>
+                </div>
+                <button class="btn btn-secondary" onclick="disconnectWallet()" style="width: 100%; margin-top: 1rem;">
+                  Disconnect Wallet
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="divider" style="margin: 1.5rem 0;">OR</div>
+          
+          <!-- Manual Wallet Address -->
+          <label for="walletAddress">Manual EVM Wallet Address</label>
+          <input 
+            type="text" 
+            id="walletAddress" 
+            placeholder="0x..." 
+            pattern="^0x[a-fA-F0-9]{40}$"
+          >
+          <small>SHARP tokens will be sent to this address</small>
+          <button onclick="updateWalletAddress()" class="btn btn-outline" style="width: 100%;">
+            💾 Save Manual Address
+          </button>
+          <div id="walletStatus" class="status-message"></div>
+        </div>
+      </div>
+
+      <!-- Referral Card -->
+      <div class="profile-card">
+        <h2>🎁 Referral Code</h2>
+        <div class="referral-section">
+          <div class="referral-code-box">
+            <span id="referralCode">LOADING...</span>
+            <button onclick="copyReferralCode()" class="btn btn-icon">📋</button>
+          </div>
+          <p>Share your code and earn bonus SHARP tokens!</p>
+          <button onclick="shareReferral()" class="btn btn-outline">
+            Share Referral Link
+          </button>
+        </div>
+      </div>
+
+      <!-- Recent Transactions -->
+      <div class="profile-card full-width">
+        <h2>💰 Recent Transactions</h2>
+        <div id="transactionsList" class="transactions-list">
+          <p class="loading">Loading transactions...</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <span>Home</span>
+    </a>
+    <a href="games.html" class="nav-item">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+      <span>Games</span>
+    </a>
+    <a href="leaderboard.html" class="nav-item">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="7" height="7"/>
+        <rect x="14" y="3" width="7" height="7"/>
+        <rect x="14" y="14" width="7" height="7"/>
+        <rect x="3" y="14" width="7" height="7"/>
+      </svg>
+      <span>Board</span>
+    </a>
+    <a href="profile.html" class="nav-item active">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <footer class="footer">
+    <p>&copy; 2025 SharpPlay Web. Built for Web3 Gaming.</p>
+  </footer>
+
+  <!-- Web3.js SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-functions-compat.js"></script>
+  
+  <script src="js/firebase-config.js"></script>
+  <script src="js/web3-integration.js"></script>
+  <script src="js/profile.js"></script>
+  
+  <!-- Loader Script -->
+  <script>
+    window.addEventListener('load', function() {
+      const preloader = document.getElementById('preloader');
+      const doorLeft = document.querySelector('.door-left');
+      const doorRight = document.querySelector('.door-right');
+      
+      setTimeout(() => {
+        doorLeft.classList.add('open');
+        doorRight.classList.add('open');
+        preloader.classList.add('loaded');
+        
+        setTimeout(() => {
+          preloader.classList.add('hidden');
+          setTimeout(() => {
+            preloader.style.display = 'none';
+          }, 500);
+        }, 1500);
+      }, 1500);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,324 @@
+/* Leaderboard Styles */
+.leaderboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.leaderboard-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.leaderboard-header h1 {
+  font-size: 3.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 900;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -1px;
+}
+
+.leaderboard-header p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+/* Filters */
+.leaderboard-filters {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.filter-btn {
+  padding: 0.875rem 2rem;
+  background: linear-gradient(135deg, rgba(36, 45, 66, 0.6) 0%, rgba(30, 37, 54, 0.4) 100%);
+  backdrop-filter: blur(20px);
+  border: 2px solid var(--border-color);
+  border-radius: 14px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: all var(--transition-base);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filter-btn:hover {
+  border-color: var(--primary-orange);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.filter-btn.active {
+  background: var(--gradient-primary);
+  border-color: var(--primary-orange);
+  color: white;
+  box-shadow: var(--glow-orange);
+}
+
+/* Podium */
+.podium {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  padding: 2rem;
+}
+
+.podium-item {
+  background: linear-gradient(135deg, rgba(36, 45, 66, 0.6) 0%, rgba(30, 37, 54, 0.4) 100%);
+  backdrop-filter: blur(20px);
+  border: 2px solid var(--border-color);
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  min-width: 180px;
+  position: relative;
+  transition: all var(--transition-base);
+  overflow: hidden;
+}
+
+.podium-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
+}
+
+.podium-item:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: var(--shadow-xl);
+}
+
+.podium-item.first {
+  border-color: #FFD700;
+  order: 2;
+  min-height: 320px;
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+}
+
+.podium-item.first:hover {
+  box-shadow: 0 0 60px rgba(255, 215, 0, 0.5), var(--shadow-xl);
+}
+
+.podium-item.second {
+  border-color: #C0C0C0;
+  order: 1;
+  min-height: 280px;
+  box-shadow: 0 0 30px rgba(192, 192, 192, 0.2);
+}
+
+.podium-item.second:hover {
+  box-shadow: 0 0 50px rgba(192, 192, 192, 0.4), var(--shadow-xl);
+}
+
+.podium-item.third {
+  border-color: #CD7F32;
+  order: 3;
+  min-height: 240px;
+  box-shadow: 0 0 30px rgba(205, 127, 50, 0.2);
+}
+
+.podium-item.third:hover {
+  box-shadow: 0 0 50px rgba(205, 127, 50, 0.4), var(--shadow-xl);
+}
+
+.podium-medal {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+  position: relative;
+  z-index: 1;
+}
+
+.podium-avatar {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.podium-name {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.podium-score {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.podium-rank {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Leaderboard Table */
+.leaderboard-table-wrapper {
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 2px solid var(--border-color);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.leaderboard-table thead {
+  background: var(--dark-bg);
+}
+
+.leaderboard-table th {
+  padding: 1rem;
+  text-align: left;
+  color: var(--text-secondary);
+  font-weight: 600;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.leaderboard-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.leaderboard-table tbody tr {
+  transition: background 0.2s;
+}
+
+.leaderboard-table tbody tr:hover {
+  background: rgba(108, 99, 255, 0.1);
+}
+
+.leaderboard-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.rank-cell {
+  font-weight: bold;
+  color: var(--primary-color);
+  font-size: 1.1rem;
+}
+
+.player-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.player-avatar {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.player-name {
+  font-weight: 500;
+}
+
+.score-cell {
+  font-weight: bold;
+  color: var(--success-color);
+  font-size: 1.1rem;
+}
+
+/* Your Rank Card */
+.your-rank-card {
+  background: linear-gradient(135deg, rgba(108, 99, 255, 0.2), rgba(78, 205, 196, 0.2));
+  border: 2px solid var(--primary-color);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.your-rank-card h3 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.your-rank-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.rank-badge {
+  font-size: 3rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.rank-details {
+  text-align: left;
+}
+
+.rank-details div {
+  margin: 0.5rem 0;
+  color: var(--text-secondary);
+}
+
+.rank-details span {
+  color: var(--text-primary);
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .podium {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .podium-item {
+    width: 100%;
+    max-width: 300px;
+    min-height: auto !important;
+  }
+  
+  .podium-item.first,
+  .podium-item.second,
+  .podium-item.third {
+    order: 0;
+  }
+  
+  .leaderboard-table {
+    font-size: 0.9rem;
+  }
+  
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .your-rank-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .rank-details {
+    text-align: center;
+  }
+}

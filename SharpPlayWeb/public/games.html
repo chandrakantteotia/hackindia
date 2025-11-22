@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Games Hub - SharpPlay Web</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .games-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .games-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .games-header h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .games-header p {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .game-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-lg);
+      position: relative;
+    }
+
+    .game-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--primary-color);
+      box-shadow: var(--shadow-xl), 0 0 40px rgba(79, 70, 229, 0.3);
+    }
+
+    .game-card-banner {
+      height: 200px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-card-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(20px, 20px) rotate(180deg); }
+    }
+
+    .game-card-content {
+      padding: 2rem;
+    }
+
+    .game-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+    }
+
+    .game-card p {
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+      line-height: 1.6;
+    }
+
+    .game-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .game-difficulty {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .difficulty-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .difficulty-easy {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--success-color);
+    }
+
+    .difficulty-medium {
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--accent-color);
+    }
+
+    .difficulty-hard {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--error-color);
+    }
+
+    .game-stats {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .play-btn {
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    .category-filter {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .category-btn {
+      padding: 0.75rem 1.5rem;
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .category-btn:hover,
+    .category-btn.active {
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+      color: white;
+    }
+
+    .coming-soon-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--accent-color);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      z-index: 10;
+      box-shadow: var(--shadow-md);
+    }
+  </style>
+</head>
+<body>
+  <!-- Loader -->
+  <div id="preloader">
+    <div class="loader-doors">
+      <div class="door door-left"></div>
+      <div class="door door-right"></div>
+    </div>
+    <div class="loader-content">
+      <div class="loader-container">
+        <div class="loader-ring"></div>
+        <div class="loader-ring"></div>
+        <div class="loader-ring"></div>
+        <div class="loader-logo">⚡</div>
+      </div>
+      <div class="loader-text">
+        <h2>SharpPlay</h2>
+        <p>Loading Amazing Experience...</p>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <h1>⚡ SharpPlay</h1>
+      </div>
+      <div class="nav-links">
+        <!-- <a href="index.html">Home</a>
+        <a href="games.html">Games</a>
+        <a href="leaderboard.html">Leaderboard</a>
+        <a href="profile.html">Profile</a> -->
+        <button id="connectWalletBtn" class="btn btn-outline" onclick="connectWallet()">🦊 Wallet</button>
+        <button id="loginBtn" class="btn btn-primary" onclick="showLoginModal()" style="display: none;">Login</button>
+        <div id="userProfile" class="user-profile" style="display: none;">
+          <div class="nav-profile-avatar">
+            <img id="navProfilePhoto" src="" alt="Profile" style="display: none;">
+            <span id="navProfileIcon">👤</span>
+          </div>
+          <span id="userName"></span>
+          <button onclick="signOut()" class="btn btn-secondary">Logout</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="games-container">
+    <div class="games-header">
+      <h1>🎮 Game Collection</h1>
+      <p>Play games, earn SHARP tokens, and climb the leaderboard!</p>
+    </div>
+
+    <div class="category-filter">
+      <button class="category-btn active" onclick="filterGames('all')">All Games</button>
+      <button class="category-btn" onclick="filterGames('action')">Action</button>
+      <button class="category-btn" onclick="filterGames('puzzle')">Puzzle</button>
+      <button class="category-btn" onclick="filterGames('casual')">Casual</button>
+    </div>
+
+    <div class="games-grid">
+      <!-- Tap Reaction Game -->
+      <div class="game-card" data-category="action">
+        <div class="game-card-banner" style="background: linear-gradient(135deg, #EF4444, #F97316);">
+          🎯
+        </div>
+        <div class="game-card-content">
+          <h3>Sharp Shooter</h3>
+          <p>Test your reflexes! Tap the targets before they disappear. Fast reactions = higher scores!</p>
+          <div class="game-card-footer">
+            <div class="game-difficulty">
+              <span class="difficulty-badge difficulty-medium">Medium</span>
+            </div>
+            <div class="game-stats">
+              <span>⏱️ 60s</span>
+              <span>💰 High Reward</span>
+            </div>
+          </div>
+          <a href="game.html" class="btn btn-primary play-btn">Play Now</a>
+        </div>
+      </div>
+
+      <!-- Memory Match Game -->
+      <div class="game-card" data-category="puzzle">
+        <div class="game-card-banner" style="background: linear-gradient(135deg, #8B5CF6, #EC4899);">
+          🧠
+        </div>
+        <div class="game-card-content">
+          <h3>Memory Match</h3>
+          <p>Find all matching pairs! Challenge your memory with colorful emoji cards.</p>
+          <div class="game-card-footer">
+            <div class="game-difficulty">
+              <span class="difficulty-badge difficulty-easy">Easy</span>
+            </div>
+            <div class="game-stats">
+              <span>🎴 12-20 Cards</span>
+              <span>💰 Medium</span>
+            </div>
+          </div>
+          <a href="memory.html" class="btn btn-primary play-btn">Play Now</a>
+        </div>
+      </div>
+
+      <!-- Color Rush Game -->
+      <div class="game-card" data-category="casual">
+        <div class="game-card-banner" style="background: linear-gradient(135deg, #10B981, #06B6D4);">
+          🎨
+        </div>
+        <div class="game-card-content">
+          <h3>Color Rush</h3>
+          <p>Match the text color, not the word! A fast-paced brain teaser that gets challenging quickly.</p>
+          <div class="game-card-footer">
+            <div class="game-difficulty">
+              <span class="difficulty-badge difficulty-hard">Hard</span>
+            </div>
+            <div class="game-stats">
+              <span>⚡ Speed</span>
+              <span>💰 High Reward</span>
+            </div>
+          </div>
+          <a href="color-rush.html" class="btn btn-primary play-btn">Play Now</a>
+        </div>
+      </div>
+
+      <!-- Number Sequence (Coming Soon) -->
+      <div class="game-card" data-category="puzzle">
+        <span class="coming-soon-badge">Coming Soon</span>
+        <div class="game-card-banner" style="background: linear-gradient(135deg, #3B82F6, #6366F1); opacity: 0.6;">
+          🔢
+        </div>
+        <div class="game-card-content">
+          <h3>Number Sequence</h3>
+          <p>Find the pattern in number sequences. Perfect for math lovers and puzzle enthusiasts!</p>
+          <div class="game-card-footer">
+            <div class="game-difficulty">
+              <span class="difficulty-badge difficulty-medium">Medium</span>
+            </div>
+            <div class="game-stats">
+              <span>🧮 Logic</span>
+              <span>💰 High Reward</span>
+            </div>
+          </div>
+          <button class="btn btn-secondary play-btn" disabled>Coming Soon</button>
+        </div>
+      </div>
+
+      <!-- Word Hunt (Coming Soon) -->
+      <div class="game-card" data-category="puzzle">
+        <span class="coming-soon-badge">Coming Soon</span>
+        <div class="game-card-banner" style="background: linear-gradient(135deg, #F59E0B, #EAB308); opacity: 0.6;">
+          📝
+        </div>
+        <div class="game-card-content">
+          <h3>Word Hunt</h3>
+          <p>Find hidden words in the grid. Expand your vocabulary while earning tokens!</p>
+          <div class="game-card-footer">
+            <div class="game-difficulty">
+              <span class="difficulty-badge difficulty-easy">Easy</span>
+            </div>
+            <div class="game-stats">
+              <span>📚 Words</span>
+              <span>💰 Medium</span>
+            </div>
+          </div>
+          <button class="btn btn-secondary play-btn" disabled>Coming Soon</button>
+        </div>
+      </div>
+
+      <!-- Stack Tower (Coming Soon) -->
+      <div class="game-card" data-category="action">
+        <span class="coming-soon-badge">Coming Soon</span>
+        <div class="game-card-banner" style="background: linear-gradient(135deg, #14B8A6, #0891B2); opacity: 0.6;">
+          🏗️
+        </div>
+        <div class="game-card-content">
+          <h3>Stack Tower</h3>
+          <p>Build the highest tower by stacking blocks perfectly. Precision is key!</p>
+          <div class="game-card-footer">
+            <div class="game-difficulty">
+              <span class="difficulty-badge difficulty-medium">Medium</span>
+            </div>
+            <div class="game-stats">
+              <span>🎯 Precision</span>
+              <span>💰 High Reward</span>
+            </div>
+          </div>
+          <button class="btn btn-secondary play-btn" disabled>Coming Soon</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 3rem; padding: 3rem; background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border-color);">
+      <h2 style="margin-bottom: 1rem;">More Games Coming Soon!</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 2rem;">We're constantly adding new games. Stay tuned for exciting updates!</p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <span style="padding: 0.75rem 1.5rem; background: rgba(79, 70, 229, 0.1); border-radius: 10px;">🎲 Dice Duel</span>
+        <span style="padding: 0.75rem 1.5rem; background: rgba(79, 70, 229, 0.1); border-radius: 10px;">🃏 Card Match</span>
+        <span style="padding: 0.75rem 1.5rem; background: rgba(79, 70, 229, 0.1); border-radius: 10px;">🧩 Puzzle Master</span>
+        <span style="padding: 0.75rem 1.5rem; background: rgba(79, 70, 229, 0.1); border-radius: 10px;">🎪 Quiz Arena</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <span>Home</span>
+    </a>
+    <a href="games.html" class="nav-item active">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+      <span>Games</span>
+    </a>
+    <a href="leaderboard.html" class="nav-item">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="7" height="7"/>
+        <rect x="14" y="3" width="7" height="7"/>
+        <rect x="14" y="14" width="7" height="7"/>
+        <rect x="3" y="14" width="7" height="7"/>
+      </svg>
+      <span>Board</span>
+    </a>
+    <a href="profile.html" class="nav-item">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <footer class="footer">
+    <p>&copy; 2025 SharpPlay Web. Built for Web3 Gaming.</p>
+    <div class="footer-links">
+      <a href="tournament.html">Tournaments</a>
+      <a href="referral.html">Referrals</a>
+      <a href="#">Terms</a>
+      <a href="#">Privacy</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-functions-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/web3-integration.js"></script>
+  <script src="js/auth.js"></script>
+  
+  <script>
+    function filterGames(category) {
+      const cards = document.querySelectorAll('.game-card');
+      const buttons = document.querySelectorAll('.category-btn');
+      
+      // Update active button
+      buttons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      // Filter cards
+      cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'block';
+          setTimeout(() => card.style.opacity = '1', 10);
+        } else {
+          card.style.opacity = '0';
+          setTimeout(() => card.style.display = 'none', 300);
+        }
+      });
+    }
+  </script>
+  
+  <!-- Loader Script -->
+  <script>
+    window.addEventListener('load', function() {
+      const preloader = document.getElementById('preloader');
+      const doorLeft = document.querySelector('.door-left');
+      const doorRight = document.querySelector('.door-right');
+      
+      setTimeout(() => {
+        doorLeft.classList.add('open');
+        doorRight.classList.add('open');
+        preloader.classList.add('loaded');
+        
+        setTimeout(() => {
+          preloader.classList.add('hidden');
+          setTimeout(() => {
+            preloader.style.display = 'none';
+          }, 500);
+        }, 1500);
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
