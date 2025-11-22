@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tournaments - SharpPlay Web</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/tournament.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <h1>⚡ SharpPlay</h1>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="game.html">Play</a>
+        <a href="leaderboard.html">Leaderboard</a>
+        <a href="profile.html">Profile</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="tournament-container">
+    <div class="tournament-header">
+      <h1>🏆 Weekly Tournaments</h1>
+      <p>Compete for bigger SHARP token prizes!</p>
+    </div>
+
+    <!-- Active Tournament -->
+    <div class="tournament-card active">
+      <div class="tournament-badge">🔥 ACTIVE NOW</div>
+      <h2 id="tournamentName">Weekly Champion Challenge</h2>
+      
+      <div class="tournament-info">
+        <div class="info-item">
+          <div class="info-label">Prize Pool</div>
+          <div class="info-value prize-pool" id="prizePool">1000 SHARP</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Participants</div>
+          <div class="info-value" id="participantCount">0</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Time Remaining</div>
+          <div class="info-value countdown" id="timeRemaining">--:--:--</div>
+        </div>
+      </div>
+
+      <div class="tournament-prizes">
+        <h3>Prize Distribution</h3>
+        <div class="prize-list">
+          <div class="prize-item">
+            <span class="prize-rank">🥇 1st Place</span>
+            <span class="prize-amount">500 SHARP (50%)</span>
+          </div>
+          <div class="prize-item">
+            <span class="prize-rank">🥈 2nd Place</span>
+            <span class="prize-amount">300 SHARP (30%)</span>
+          </div>
+          <div class="prize-item">
+            <span class="prize-rank">🥉 3rd Place</span>
+            <span class="prize-amount">150 SHARP (15%)</span>
+          </div>
+          <div class="prize-item">
+            <span class="prize-rank">4th-10th Place</span>
+            <span class="prize-amount">50 SHARP (5%)</span>
+          </div>
+        </div>
+      </div>
+
+      <button onclick="window.location.href='game.html'" class="btn btn-large btn-primary">
+        Join Tournament
+      </button>
+    </div>
+
+    <!-- Current Rankings -->
+    <div class="tournament-rankings">
+      <h2>Current Tournament Rankings</h2>
+      <table class="rankings-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Player</th>
+            <th>Score</th>
+            <th>Prize</th>
+          </tr>
+        </thead>
+        <tbody id="tournamentRankings">
+          <tr>
+            <td colspan="4" class="loading">Loading rankings...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Past Tournaments -->
+    <div class="past-tournaments">
+      <h2>Past Tournaments</h2>
+      <div id="pastTournamentsList" class="past-tournaments-list">
+        <p class="loading">Loading past tournaments...</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 SharpPlay Web. Built for Web3 Gaming.</p>
+  </footer>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  
+  <script src="js/firebase-config.js"></script>
+  <script src="js/tournament.js"></script>
+</body>
+</html>
